@@ -1,3 +1,3 @@
-# Day 2 Backend, using sequelize ORM Register
+# Day 2 Backend, using sequelize ORM Fetching Data
 
-ORM for Register, without Auth and Token, or password hash
+ORM for Fetch Data, without Auth and Token, or password hash

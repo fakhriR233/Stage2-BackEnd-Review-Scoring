@@ -25,7 +25,11 @@ exports.registerUser = async (req,res) => {
 exports.showAllUsers = async (req,res) => {
     try {
         
-        const allUsers = await Users.findAll()
+        const allUsers = await Users.findAll({
+            attributes: {
+                exclude: ['password', 'createdAt', 'updatedAt']
+            }
+        })
 
         res.send ({
             status: "Success",
@@ -51,7 +55,7 @@ exports.showUser = async (req,res) => {
         
         const {id} = req.params
 
-        const allUsers = await Users.findAll({
+        const showUser = await Users.findAll({
             where: {id}
         })
 
@@ -59,7 +63,7 @@ exports.showUser = async (req,res) => {
             status: "Success",
             message: `Showing user with id : ${id}`,
             data: {
-                user: allUsers
+                user: showUser
             }
         })
 
@@ -69,6 +73,34 @@ exports.showUser = async (req,res) => {
         res.send({
             status: "Failed!",
             message: `Server Error, Failed to show user with id : ${id}`
+        })
+
+    }
+}
+
+exports.updateUser = async (req,res) => {
+    try {
+        
+        const {id} = req.params
+
+        await Users.update(req.body, {
+            where: {id}
+        })
+
+        res.send ({
+            status: "Success",
+            message: `Updating user with id : ${id}`
+            // data: {
+            //     user: allUsers
+            // }
+        })
+
+    } catch (error) {
+        
+        console.log(error);
+        res.send({
+            status: "Failed!",
+            message: `Server Error, Failed to update user with id : ${id}`
         })
 
     }

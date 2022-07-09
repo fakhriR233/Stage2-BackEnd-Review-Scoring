@@ -1,5 +1,3 @@
-# Day 2 Backend, using sequelize ORM Delete
+# Day 2 Backend, using sequelize ORM Database Relation
 
-ORM for Delete user data, without Auth and Token, or password hash
-
-Using request through postman, in body with json.
+db only generate not yet migrated.

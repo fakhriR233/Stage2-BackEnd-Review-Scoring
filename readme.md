@@ -1,3 +1,3 @@
-# Day 1 Backend, using sequelize Query
+# Day 2 Backend, using sequelize ORM Register
 
-Still using query, will do ORM, only register function
+ORM for Register, without Auth and Token, or password hash

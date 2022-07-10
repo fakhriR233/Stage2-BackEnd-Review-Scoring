@@ -1,4 +1,4 @@
-const { Users, profile } = require("../../models");
+const { Users, profile, products, productcategory } = require("../../models");
 
 
 exports.registerUser = async (req,res) => {
@@ -29,13 +29,23 @@ exports.showAllUsers = async (req,res) => {
         
         const allUsers = await Users.findAll({
 
-            include: {
-                model: profile,
-                as: "profile",
-                attributes: {
-                    exclude: ["createdAt", "updatedAt", "idUser"]
+            include: [
+                {
+                    model: profile,
+                    as: "profile",
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt", "idUser"]
+                    }
+                },
+
+                {
+                    model: products,
+                    as: "products",
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt", "idUser"]
+                    }
                 }
-            },
+            ],
 
             attributes: {
                 exclude: ['password', 'createdAt', 'updatedAt']

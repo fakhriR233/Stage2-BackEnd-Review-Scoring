@@ -17,6 +17,25 @@ module.exports = (sequelize, DataTypes) => {
           name: "idUser"
         }
       })
+
+      // products.hasMany(models.transactions, {
+      //   as: "transactions",
+      //   foreignKey: {
+      //     name: "idProduct",
+      //   },
+      // });
+
+      products.belongsToMany(models.category, {
+        as: "categories",
+        through: {
+          model: "product-category",
+          as: "bridge"
+        },
+        foreignKey: {
+          name: "idProduct"
+        }
+      })
+
     }
   }
   products.init({

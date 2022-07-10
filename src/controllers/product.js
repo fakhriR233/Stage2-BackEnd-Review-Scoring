@@ -1,4 +1,4 @@
-const {products, Users} = require("../../models")
+const {products, Users, category, productCategory} = require("../../models")
 
 
 exports.getProduct = async (req, res) => {
@@ -6,13 +6,29 @@ exports.getProduct = async (req, res) => {
      
         try {
             const data = await products.findAll({
-                include: {
+                include: [
+                {
                     model: Users,
                     as: "Users",
                     attributes: {
                         exclude: ["createdAt", "updatedAt","password"]
                     }
                 },
+                {
+                    model: category,
+                    as: "categories",
+                    through: {
+                        model: productCategory,
+                        as: "bridge",
+                        attributes: {
+                            exclude: ["createdAt", "updatedAt"]
+                        }
+                    },
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"]
+                    }
+                }
+            ],
                 attributes: {
                     exclude: ["createdAt", "updatedAt"]
                 }

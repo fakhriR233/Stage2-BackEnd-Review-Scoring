@@ -1,3 +1,7 @@
-# Day 2 Backend, using sequelize ORM Database Relation
+# Day 2 Backend, using sequelize ORM Database Relationship all connected
 
-db only generate not yet migrated.
+db with relationship, already migrated.
+
+relationship as below image:
+
+![DB Relation](database-design.jpg)

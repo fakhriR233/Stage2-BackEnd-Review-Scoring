@@ -9,10 +9,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       idProduct: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        //relation to products
+        references: {
+          model: "products",
+          key: "id"
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
       },
       idCategory: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        //relation to categories
+        references: {
+          model: "categories",
+          key: "id"
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
       },
       createdAt: {
         allowNull: false,

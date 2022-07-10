@@ -42,3 +42,31 @@ try {
         })
     }
 }
+
+exports.showCategory = async (req,res) => {
+    try {
+        
+        const {id} = req.params
+
+        const showCategory = await category.findAll({
+            where: {id}
+        })
+
+        res.send ({
+            status: "Success",
+            message: `Showing Category Detail with id : ${id}`,
+            data: {
+                category: showCategory
+            }
+        })
+
+    } catch (error) {
+        
+        console.log(error);
+        res.send({
+            status: "Failed!",
+            message: `Server Error, Failed to show user with id : ${id}`
+        })
+
+    }
+}

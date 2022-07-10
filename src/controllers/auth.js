@@ -1,6 +1,8 @@
 const { Users } = require("../../models")
 
 const Joi = require("joi")
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 exports.register = async (req, res) => {
 
@@ -36,16 +38,29 @@ exports.register = async (req, res) => {
             })
         }
 
-        await Users.create({
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+        const newUser = await Users.create({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
+            password: hashedPassword,
             status: "user"
         })
 
+        //jwt token generate
+        // const tokenKey = "supersecretkey"
+        const token = jwt.sign({id: newUser.id}, process.env.TOKEN_KEY)
+
+
         res.status(201).send({
             status: "Success",
-            message:"Register successful"
+            message:"Register successful",
+            data: {
+                name: newUser.name,
+                email: newUser.email,
+                token
+            }
         })
         
         
@@ -86,6 +101,9 @@ exports.login = async (req, res) => {
             }
         })
 
+        const passCheck = await bcrypt.compare(req.body.password,
+            checkUser.password)
+
         if(!checkUser){
             return res.status(400).send({
                 status: "Failed",
@@ -93,12 +111,16 @@ exports.login = async (req, res) => {
             })
         }
 
-        if(checkUser.password !== req.body.password){
+        if(!passCheck){
             return res.status(400).send({
                 status: "Failed",
                 message: "Wrong Password"
             })
         }
+
+        //jwt token generate
+        // const tokenKey = "supersecretkey"
+        const token = jwt.sign({id: checkUser.id}, process.env.TOKEN_KEY)
 
         res.status(200).send({
             status: "Success",
@@ -106,7 +128,8 @@ exports.login = async (req, res) => {
             data: {
                 user: {
                     name: checkUser.name,
-                    email: checkUser.email
+                    email: checkUser.email,
+                    token
                 }
             }
         })

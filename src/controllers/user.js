@@ -1,10 +1,12 @@
-const { Users } = require("../../models")
+const { Users, profile } = require("../../models");
 
 
 exports.registerUser = async (req,res) => {
     try {
         
         await Users.create(req.body)
+
+        // await profile.create(req.body)
 
         res.send ({
             status: "Success",
@@ -26,6 +28,15 @@ exports.showAllUsers = async (req,res) => {
     try {
         
         const allUsers = await Users.findAll({
+
+            include: {
+                model: profile,
+                as: "profile",
+                attributes: {
+                    exclude: ["createdAt", "updatedAt", "idUser"]
+                }
+            },
+
             attributes: {
                 exclude: ['password', 'createdAt', 'updatedAt']
             }

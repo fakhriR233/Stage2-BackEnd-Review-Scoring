@@ -1,11 +1,11 @@
-# Day 2 Backend, Finishing up
+# Day 2 Backend, Finalizing
 
-Login and Register Auth, with JWT Token.
+Auth, with JWT Token.
 
 added env for Token.
 
-auth middleware for most routes is not done.
+auth middleware for most routes is done.
 
 multer image is not done yet.
 
-function that haven't created : detail.update.delete of product, detail.update.delete of transaction, update.delete of category
+function that haven't created : multer

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 exports.auth = (req,res,next) => {
 
     const authHeader = req.header("Authorization")
-    const token = authHeader.split(" ")[1]
+    const token = authHeader && authHeader.split(" ")[1]
 
     console.log(token);
 
@@ -17,6 +17,8 @@ exports.auth = (req,res,next) => {
     try {
 
         const verifyToken = jwt.verify(token, process.env.TOKEN_KEY)
+
+        req.Users = verifyToken
 
         console.log(verifyToken);
         next()

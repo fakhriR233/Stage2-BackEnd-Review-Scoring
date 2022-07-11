@@ -67,3 +67,81 @@ exports.addProduct = async (req, res) => {
         })
     }
 }
+
+exports.showProduct = async (req,res) => {
+    try {
+        
+        const {id} = req.params
+
+        const showSomeProduct = await products.findAll({
+            where: {id}
+        })
+
+        res.send ({
+            status: "Success",
+            message: `Showing Product Detail with id : ${id}`,
+            data: {
+                product: showSomeProduct
+            }
+        })
+
+    } catch (error) {
+        
+        console.log(error);
+        res.send({
+            status: "Failed!",
+            message: `Server Error, Failed to show product with id : ${id}`
+        })
+
+    }
+}
+
+exports.updateProduct = async (req,res) => {
+    try {
+        
+        const {id} = req.params
+
+        await products.update(req.body, {
+            where: {id}
+        })
+
+        res.send ({
+            status: "Success",
+            message: `Updating product with id : ${id}`
+        })
+
+    } catch (error) {
+        
+        console.log(error);
+        res.send({
+            status: "Failed!",
+            message: `Server Error, Failed to update product with id : ${id}`
+        })
+
+    }
+}
+
+exports.deleteProduct = async (req,res) => {
+    try {
+        
+        const {id} = req.params
+
+        await products.destroy({
+            where: {id}
+        })
+
+        res.status(200).send ({
+            status: "Success",
+            message: `Product with id : ${id} had been Deleted`
+        })
+
+    } catch (error) {
+        
+        console.log(error);
+        res.status(400).send({
+            status: "Failed!",
+            message: `Server Error, Failed to delete product with id : ${id}`
+        })
+
+    }
+}

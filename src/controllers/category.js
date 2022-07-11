@@ -70,3 +70,53 @@ exports.showCategory = async (req,res) => {
 
     }
 }
+
+exports.updateCategory = async (req,res) => {
+    try {
+        
+        const {id} = req.params
+
+        await category.update(req.body, {
+            where: {id}
+        })
+
+        res.send ({
+            status: "Success",
+            message: `Updating category with id : ${id}`
+        })
+
+    } catch (error) {
+        
+        console.log(error);
+        res.send({
+            status: "Failed!",
+            message: `Server Error, Failed to update category with id : ${id}`
+        })
+
+    }
+}
+
+exports.deleteCategory = async (req,res) => {
+    try {
+        
+        const {id} = req.params
+
+        await category.destroy({
+            where: {id}
+        })
+
+        res.status(200).send ({
+            status: "Success",
+            message: `Category with id : ${id} had been Deleted`
+        })
+
+    } catch (error) {
+        
+        console.log(error);
+        res.status(400).send({
+            status: "Failed!",
+            message: `Server Error, Failed to delete Category with id : ${id}`
+        })
+
+    }
+}

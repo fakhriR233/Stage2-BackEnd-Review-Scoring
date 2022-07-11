@@ -1,4 +1,5 @@
 const {transactions, products, Users} = require("../../models");
+const jwt = require("jsonwebtoken")
 
 exports.getTransactions = async (req,res) => {
     
@@ -54,11 +55,35 @@ exports.getTransactions = async (req,res) => {
 
 exports.addTransactions = async (req,res) => {
     try {
-        await transactions.create(req.body)
+        
+        const pricing = await products.findOne({
+            where: {
+                id: req.body.idProduct
+            }
+        })
+
+        // if(!pricing.price) {
+        //     return res.status(400).send({
+        //         status: "error",
+        //         message: "Product Doesn't Exist!"
+        //     })
+        // }
+        
+        const buy = await transactions.create(
+            {   idProduct: req.body.idProduct, 
+                idBuyer: req.Users.id,
+                idSeller: req.body.idSeller,
+                price: pricing.price,
+                status: "success"
+            })
+            
 
         res.status(200).send({
             status: "Success",
             message: "A new Transaction Added!",
+            data : {
+                transaction: buy
+            }
         })
     } catch (error) {
         console.log(error);

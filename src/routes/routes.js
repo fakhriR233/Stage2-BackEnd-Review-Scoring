@@ -1,7 +1,7 @@
 const express = require ("express")
 const { register, login } = require("../controllers/auth")
-const { addCategory, getCategory, showCategory } = require("../controllers/category")
-const { addProduct, getProduct } = require("../controllers/product")
+const { addCategory, getCategory, showCategory, updateCategory, deleteCategory } = require("../controllers/category")
+const { addProduct, getProduct, showProduct, updateProduct, deleteProduct } = require("../controllers/product")
 const { getTransactions, addTransactions } = require("../controllers/transaction")
 const { registerUser, showAllUsers, showUser, updateUser, deleteUser } = require("../controllers/user")
 
@@ -18,16 +18,21 @@ router.delete("/user/:id", deleteUser)
 
 //products
 router.get("/products", auth, getProduct)
-router.post("/products", addProduct)
+router.get("/product/:id", auth, showProduct)
+router.post("/product", auth, addProduct)
+router.patch("/product/:id", auth, updateProduct)
+router.delete("/product/:id", auth, deleteProduct)
 
 //transactions
-router.get("/transaction", getTransactions)
-router.post("/transaction", addTransactions)
+router.get("/transaction", auth, getTransactions)
+router.post("/transaction", auth, addTransactions)
 
 //category
-router.get("/categories", getCategory)
-router.get("/category/:id", showCategory)
-router.post("/category", addCategory)
+router.get("/categories", auth, getCategory)
+router.get("/category/:id", auth, showCategory)
+router.post("/category", auth, addCategory)
+router.patch("/category/:id", auth, updateCategory)
+router.delete("/category/:id", auth, deleteCategory)
 
 //register and login
 router.post("/register", register)

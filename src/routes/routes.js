@@ -7,6 +7,8 @@ const { registerUser, showAllUsers, showUser, updateUser, deleteUser } = require
 
 const {auth} = require("../middlewares/auth")
 
+const {uploadFile} = require("../middlewares/uploadFile")
+
 const router = express.Router()
 
 router.get("/users", showAllUsers)
@@ -19,7 +21,7 @@ router.delete("/user/:id", deleteUser)
 //products
 router.get("/products", auth, getProduct)
 router.get("/product/:id", auth, showProduct)
-router.post("/product", auth, addProduct)
+router.post("/product", auth, uploadFile("image"), addProduct)
 router.patch("/product/:id", auth, updateProduct)
 router.delete("/product/:id", auth, deleteProduct)
 

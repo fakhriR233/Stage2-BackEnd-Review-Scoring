@@ -1,11 +1,11 @@
-# Day 2 Backend, Finalizing
+# Day 2 Backend, Final
 
+Input, validation with Joi.
 Auth, with JWT Token.
+Uplaod, with multer.
 
 added env for Token.
 
-auth middleware for most routes is done.
+auth and multer image middleware for routes is done (multer only for product, transaction is not yet added).
 
-multer image is not done yet.
-
-function that haven't created : multer
+multer image is done.

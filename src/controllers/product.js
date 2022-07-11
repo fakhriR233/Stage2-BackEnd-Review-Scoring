@@ -5,7 +5,7 @@ exports.getProduct = async (req, res) => {
 
      
         try {
-            const data = await products.findAll({
+            let data = await products.findAll({
                 include: [
                 {
                     model: Users,
@@ -34,6 +34,15 @@ exports.getProduct = async (req, res) => {
                 }
             })
 
+            data = JSON.parse(JSON.stringify(data))
+
+            data = data.map((item) => {
+                return {
+                    ...item,
+                    image: process.env.PATH_FILE + item.image
+                }
+            })
+
             res.status(200).send({
                 status: "Success",
                 message: "Showing all Products",
@@ -53,12 +62,32 @@ exports.getProduct = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
     try {
-        await products.create(req.body)
+        
+        const data = req.body
 
-        res.status(200).send({
-            status: "Success",
-            message: "Products successfully Added!",
+        let newProduct = await products.create({
+            ...data,
+            image: req.file.filename,
+            idUser: req.Users.id
         })
+
+        newProduct = JSON.parse(JSON.stringify(newProduct))
+
+        newProduct = {
+            ...newProduct,
+            image: process.env.PATH_FILE + newProduct.image
+        }
+        
+        res.status(200).send({
+            status: "success",
+            data : newProduct
+        })
+        // await products.create(req.body)
+
+        // res.status(200).send({
+        //     status: "Success",
+        //     message: "Products successfully Added!",
+        // })
     } catch (error) {
         console.log(error);
         res.status(400).send({

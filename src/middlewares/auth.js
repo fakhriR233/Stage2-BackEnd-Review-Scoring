@@ -27,7 +27,7 @@ exports.auth = (req,res,next) => {
         console.log(error);
         res.status(400).send({
             status: "Failed",
-            message: "Server Error"
+            message: "Invalid Token"
         })
     }
 

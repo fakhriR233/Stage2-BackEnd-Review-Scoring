@@ -12,4 +12,6 @@ const router = require("./src/routes/routes")
 
 app.use("/api/v1/", router)
 
+app.use("/uploads", express.static("uploads"))
+
 app.listen(port, () => console.log(`Server running on port: ${port}`))
